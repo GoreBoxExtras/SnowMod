@@ -5,7 +5,7 @@ ListenForPlayer
 
 //////////// variables //
 
-var = {} ..w.ad.w
+var = {}
 
 var._DEBUG = false
 
