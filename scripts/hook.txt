@@ -35,6 +35,7 @@ OnSceneChanged = function(args)
     if args.sceneName == "sys_Menu" and var._DEBUG != true then
         print("in menu, script cancelled")
     else if var.Active == true then
+        func.InitMain()
         var.Active = false
     end if
 
