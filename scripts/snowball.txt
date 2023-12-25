@@ -1,0 +1,17 @@
+
+var = {}
+
+var._DEBUG = GetInt({"key": "_DEBUG_SM"})
+
+var.texture = "snow.png"
+
+var.SpeedX = RandomFloat({"min": 6, "max": 12})
+var.SpeedZ = RandomFloat({"min": -3, "max": 3})
+
+var.Resistance = RandomFloat({"min": -20, "max": -10})
+
+
+AddRigidbody()
+SetTexture({"name": var.texture})
+wait(0.3)
+AddForce({"x": var.SpeedZ, "y": -var.Resistance, "z": var.SpeedZ, "mode": 3})

@@ -1,0 +1,66 @@
+//////////// listeners //
+
+ListenForSceneChange
+ListenForPlayer
+
+//////////// variables //
+
+var = {}
+
+var._DEBUG = false
+
+var.Active = false
+
+
+//////////// functions //
+
+func = {}
+
+func.InitMain = function()
+
+    InstantiateEmpty({"name": "MainScript", "x": 0, "y": 0, "z": 0, "rotX": 0, "rotY": 0, "rotZ": 0,"rotW": 0}) // initiante an object for the mainscript
+    ExecuteScript({"target":"MainScript", "script": "main"}) 
+
+end function
+
+//////////// SCRIPT //
+
+if var._DEBUG == true then
+    OpenConsole()
+    func.InitMain()
+    print("---------------------DEBUG--SNOWMODINDEV--------------------")
+end if
+
+OnSceneChanged = function(args)
+    if args.sceneName == "sys_Menu" and var._DEBUG != true then
+        print("in menu, script cancelled")
+    else if var.Active == true then
+        var.Active = false
+    end if
+
+end function
+
+OnLocalSpawned = function(args)
+    if var.Active == false then
+        func.InitMain()
+        var.Active = true
+    end if
+end function
+
+
+OnLocalDied = function(args)
+    var.Active = false
+end function
+
+
+//////////// event loop //
+
+while true
+    while _events.len > 0
+        _nextEvent = _events.pull
+        _nextEvent.invoke(_nextEvent.args)
+    end while
+    yield
+end while
+
+

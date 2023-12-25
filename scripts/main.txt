@@ -1,0 +1,145 @@
+print("MainLoaded")
+//////////// listeners //
+
+ListenForInput
+ListenForSceneChange
+
+//////////// variables //
+
+var = {}
+
+var._DEBUG = true
+
+var.KEYBIND = "P"
+
+var.debounce = 0
+
+var.SnowModel = "snowball.fbx"
+var.SnowDensity = 250
+var.SnowFrequency = 0.8
+
+var.Balls = []
+
+var.PosY = 50
+var.XPosMax = 80        
+var.ZPosMax = 80
+var.PlayerPosX = @posX
+var.PlayerPosZ = @posZ
+var.PlayerPosY = @posY
+
+var.MaxLife = RandomFloat({"min": 4, "max": 6})
+
+//////////// functions //
+
+func = {}
+
+func.SpawnBall = function(script)
+
+    rndVar = RandomFloat({"min": 0, "max": 50})
+    name = ("SnowParticle" + (rndVar))
+
+    RandomXPos = var.PlayerPosX + RandomInt({"min": -(var.XPosMax / 2), "max": (var.XPosMax / 2)})
+    RandomZPos = var.PlayerPosZ + RandomInt({"min": -(var.ZPosMax / 2), "max": (var.ZPosMax / 2)})
+
+    print(RandomXPos + " " + RandomZPos + " " + (var.PosY + var.PlayerPosY))
+
+    InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": 0.8, "collisions": false, "convex": false})
+    ExecuteScript({"target": name , "script": script})
+    
+    var.Balls = func.ListAdd(var.Balls, name)
+
+end function
+
+
+func.CheckTable = function(table, min)
+    result = table[0:]
+
+    for index in indexes(result)
+
+        for kv in result[index]
+            if time() - kv.value >= min then
+
+                ExecuteScript({"target": kv.key, "script": "destroy"}) // alternative to destroy() since its borken atm
+                // Destroy({"name": kv.key})
+                result.remove(index)
+                return func.CheckTable(result, min)
+            end if
+
+        end for       
+    end for
+
+    return result
+end function
+
+
+func.TestFunc = function(list)
+
+    var.itercount = 0
+
+    while true    
+                
+        if (var.Balls.len < var.SnowDensity) then
+            func.SpawnBall("snowball")
+        end if
+        
+        if var.itercount >= 20 then
+            var.Balls = func.CheckTable(var.Balls, var.MaxLife)
+            var.itercount = 0
+        end if
+
+        var.itercount = var.itercount + 1
+
+        wait(0.05)      
+
+        OnSceneChanged = function(args)
+            print("broked the loop im the martricx")
+            break
+        end function 
+    end while
+
+end function
+
+
+func.ListAdd = function(list, value)
+
+    result = list[0:]
+    result.insert(result.len, {value:time()})
+
+    return result
+
+end function
+
+
+//////////// SCRIPT //
+
+OnKeyPress = function(args)
+    key = args.key
+
+    if key == var.KEYBIND then
+           func.TestFunc()
+    end if
+
+
+    // if key == "P" then
+    //     if var.PAUSE == 1 then
+    //         var.PAUSE = 0
+    //     else
+    //         var.PAUSE = 1
+    //     end if
+    // end if
+
+end function
+
+//func.TestFunc()
+
+//////////// event loop //
+
+while true
+    while _events.len > 0
+        _nextEvent = _events.pull
+        _nextEvent.invoke(_nextEvent.args)
+    end while
+    yield
+end while
+
+
