@@ -35,11 +35,12 @@ OnSceneChanged = function(args)
     if args.sceneName == "sys_Menu" and var._DEBUG != true then
         print("in menu, script cancelled")
     end if
-    SendChatMessage({"sender": "GoreBoxExtras/SnowMod", "message": "SnowMod automatically activated. To forcefully stop it use the button 'P'"})
+    SendChatMessageLocal({"sender": "GBE/SnowMod", "message": "SnowMod automatically activated. To forcefully stop it use the button 'P'"})
 end function
 
 OnLocalSpawned = function(args)
     if var.Active == false then
+        print("spawned ya sheekh")
         func.InitMain()
         var.Active = true
     end if

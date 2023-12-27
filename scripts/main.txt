@@ -1,4 +1,5 @@
 print("MainLoaded")
+wait(2)
 //////////// listeners //
 
 ListenForInput
@@ -32,33 +33,6 @@ var.PlayerPosY = @posY
 var.MaxLife = RandomFloat({"min": 1, "max": 6})
 
 var.itercount = 0
-//////////// loops //
-
-loop = {}
-
-loop._events = function()
-
-    while _events.len > 0
-        _nextEvent = _events.pull
-        _nextEvent.invoke(_nextEvent.args)
-    end while
-
-end function
-
-loop.SnowHandling = function()
-
-    if (var.Balls.len < var.SnowDensity) then
-        func.SpawnBall("snowball")
-        //SendChatMessage({"sender": "DEBUG", "message": "man how we got bal at " + var.Balls.len})
-    end if
-     
- 
-    var.Balls = func.CheckTable(var.Balls, RandomFloat({"min": 1, "max": 8})) // referencing randomness from a variable isnt working?!
-    var.itercount = 0
-
-    var.itercount = var.itercount + 1
-
-end function
 
 //////////// functions //
 
@@ -72,7 +46,7 @@ func.SpawnBall = function(script) // todo: add a cache system where u store the 
     RandomXPos = var.PlayerPosX + RandomInt({"min": -(var.XPosMax / 2), "max": (var.XPosMax / 2)})
     RandomZPos = var.PlayerPosZ + RandomInt({"min": -(var.ZPosMax / 2), "max": (var.ZPosMax / 2)})
 
-    InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": RandomFloat({"min": 0.3, "max": 0.8}), "collisions": false, "convex": false})
+    InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": RandomFloat({"min": 0.3, "max": 0.7}), "collisions": false, "convex": false})
     ExecuteScript({"target": name , "script": script})
     
     var.Balls = func.ListAdd(var.Balls, name)
@@ -122,7 +96,6 @@ end function
 func.Main = function(list)
 
     while true    
-        
         // event and listeners loop
         loop._events()       
 
@@ -140,12 +113,41 @@ func.Main = function(list)
 
 end function
 
+//////////// loops //
+
+loop = {}
+
+loop._events = function()
+
+    while _events.len > 0
+        _nextEvent = _events.pull
+        _nextEvent.invoke(_nextEvent.args)
+    end while
+
+end function
+
+loop.SnowHandling = function()
+
+    if (var.Balls.len < var.SnowDensity) then
+        func.SpawnBall("snowball")
+        //SendChatMessage({"sender": "DEBUG", "message": "man how we got bal at " + var.Balls.len})
+    end if
+     
+ 
+    var.Balls = func.CheckTable(var.Balls, RandomFloat({"min": 1, "max": 8})) // referencing randomness from a variable isnt working?!
+    var.itercount = 0
+
+    var.itercount = var.itercount + 1
+
+end function
+
 //////////// SCRIPT //
 
 OnKeyPress = function(args)
     key = args.key
 
     if key == var.KEYBIND then
+        //print("detected")
         var._STOP = true
     end if
 
@@ -164,8 +166,5 @@ OnLocalDied = function(args)
     var._STOP = true
 end function 
 
-OnSceneChanged = function(args)
-    var._STOP = true
-end function
 
 func.Main()
