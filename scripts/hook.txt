@@ -7,7 +7,7 @@ ListenForPlayer
 
 var = {}
 
-var._DEBUG = false
+var._DEBUG = true
 
 var.Active = false
 
@@ -18,8 +18,7 @@ func = {}
 
 func.InitMain = function()
 
-    InstantiateEmpty({"name": "MainScript", "x": 0, "y": 0, "z": 0, "rotX": 0, "rotY": 0, "rotZ": 0,"rotW": 0}) // initiante an object for the mainscript
-    ExecuteScript({"target":"MainScript", "script": "main"}) 
+    ExecuteScript({"target":"player", "script": "main"}) 
 
 end function
 
@@ -32,10 +31,9 @@ if var._DEBUG == true then
 end if
 
 OnSceneChanged = function(args)
+    var.Active = false
     if args.sceneName == "sys_Menu" and var._DEBUG != true then
         print("in menu, script cancelled")
-    else if var.Active == true then
-        var.Active = false
     end if
 
 end function

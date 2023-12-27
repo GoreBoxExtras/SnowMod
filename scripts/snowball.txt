@@ -1,17 +1,23 @@
 
 var = {}
 
-var._DEBUG = GetInt({"key": "_DEBUG_SM"})
-
 var.texture = "snow.png"
 
-var.SpeedX = RandomFloat({"min": 6, "max": 12})
-var.SpeedZ = RandomFloat({"min": -3, "max": 3})
+var.SpeedX = RandomFloat({"min": -15, "max": 15})
+var.SpeedZ = RandomFloat({"min": -15, "max": 15})
 
 var.Resistance = RandomFloat({"min": -20, "max": -10})
-
 
 AddRigidbody()
 SetTexture({"name": var.texture})
 wait(0.3)
-AddForce({"x": var.SpeedZ, "y": -var.Resistance, "z": var.SpeedZ, "mode": 3})
+AddForce({"x": RandomFloat({"min": -5, "max": 5}), "y": -var.Resistance, "z": RandomFloat({"min": -5, "max": 5}), "mode": 1})
+
+
+wait(5)
+while scaleX > 0
+    AddScale({"x": -0.005, "y": -0.005, "z": -0.005})
+    yield
+end while
+
+print("deestoryyed")
