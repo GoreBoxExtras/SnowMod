@@ -12,9 +12,3 @@ AddRigidbody()
 SetTexture({"name": var.texture})
 wait(0.3)
 AddForce({"x": RandomFloat({"min": -5, "max": 5}), "y": -var.Resistance, "z": RandomFloat({"min": -5, "max": 5}), "mode": 1})
-
-
-wait(5)
-
-
-print("deestoryyed")
