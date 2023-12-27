@@ -50,11 +50,10 @@ loop.SnowHandling = function()
         func.SpawnBall("snowball")
          SendChatMessage({"sender": "DEBUG", "message": "man how we got bal at " + var.Balls.len})
     end if
-        
-    if var.itercount >= 15 then
-        var.Balls = func.CheckTable(var.Balls, RandomFloat({"min": 1, "max": 8})) // referencing randomness from a variable isnt working?!
-        var.itercount = 0
-    end if
+     
+ 
+    var.Balls = func.CheckTable(var.Balls, RandomFloat({"min": 1, "max": 8})) // referencing randomness from a variable isnt working?!
+    var.itercount = 0
 
     var.itercount = var.itercount + 1
 
