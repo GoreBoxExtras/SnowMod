@@ -16,25 +16,25 @@ var.KEYBIND = "P"
 var.debounce = 0
 
 var.SnowModel = "snowball.fbx"
-var.SnowDensity = 250 // DEF: 250
-var.SnowFrequency = 0.8
+var.SnowDensity = 800 // recommended: 300 for mid end devices 100 for low end
+var.SnowFrequency = 2
 
 var.Balls = []
 
-var.PosY = 80
+var.PosY = RandomFloat({"min": 35, "max": 55})
 var.XPosMax = 15        
 var.ZPosMax = 15
 var.PlayerPosX = @posX
 var.PlayerPosZ = @posZ
 var.PlayerPosY = @posY
 
-var.MaxLife = RandomFloat({"min": 1, "max": 8})
+var.MaxLife = RandomFloat({"min": 1, "max": 6})
 
 var.itercount = 0
 //////////// loops //
 
 loop = {}
-
+// maybe add a cache system where u store the balls and reuse them
 loop._events = function()
 
     while _events.len > 0
@@ -48,6 +48,7 @@ loop.SnowHandling = function()
 
     if (var.Balls.len < var.SnowDensity) then
         func.SpawnBall("snowball")
+         SendChatMessage({"sender": "DEBUG", "message": "man how we got bal at " + var.Balls.len})
     end if
         
     if var.itercount >= 15 then
@@ -73,7 +74,7 @@ func.SpawnBall = function(script)
 
     print(RandomXPos + " " + RandomZPos + " " + (var.PosY + var.PlayerPosY))
 
-    InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": RandomFloat({"min": 0.6, "max": 0.9}), "collisions": false, "convex": false})
+    InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": RandomFloat({"min": 0.3, "max": 0.8}), "collisions": false, "convex": false})
     ExecuteScript({"target": name , "script": script})
     
     var.Balls = func.ListAdd(var.Balls, name)

@@ -1,3 +1,4 @@
+AddRigidbody()
 
 var = {}
 
@@ -8,7 +9,8 @@ var.SpeedZ = RandomFloat({"min": -15, "max": 15})
 
 var.Resistance = RandomFloat({"min": -20, "max": -10})
 
-AddRigidbody()
 SetTexture({"name": var.texture})
-wait(0.3)
+
+wait(0.5)
+
 AddForce({"x": RandomFloat({"min": -5, "max": 5}), "y": -var.Resistance, "z": RandomFloat({"min": -5, "max": 5}), "mode": 1})
