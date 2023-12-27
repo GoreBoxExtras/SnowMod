@@ -1,3 +1,4 @@
+        OpenConsole()
 //////////// listeners //
 
 ListenForSceneChange
@@ -7,7 +8,7 @@ ListenForPlayer
 
 var = {}
 
-var._DEBUG = true
+var._DEBUG = false
 
 var.Active = false
 
@@ -27,7 +28,6 @@ end function
 if var._DEBUG == true then
     OpenConsole()
     func.InitMain()
-    print("---------------------DEBUG--SNOWMODINDEV--------------------")
 end if
 
 OnSceneChanged = function(args)
@@ -35,7 +35,7 @@ OnSceneChanged = function(args)
     if args.sceneName == "sys_Menu" and var._DEBUG != true then
         print("in menu, script cancelled")
     end if
-
+    SendChatMessage({"sender": "GoreBoxExtras/SnowMod", "message": "SnowMod automatically activated. To forcefully stop it use the button 'P'"})
 end function
 
 OnLocalSpawned = function(args)

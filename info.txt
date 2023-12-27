@@ -1,4 +1,4 @@
-name: Snow Mod [INDEV2]
-description: very experimental and has many bugs
-version:0.2.0
+name: Snow Mod [INDEV3]
+description: experimental
+version:0.3.0
 active:true

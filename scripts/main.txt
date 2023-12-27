@@ -3,6 +3,7 @@ print("MainLoaded")
 
 ListenForInput
 ListenForPlayer
+ListenForSceneChange
 
 //////////// variables //
 
@@ -16,7 +17,7 @@ var.KEYBIND = "P"
 var.debounce = 0
 
 var.SnowModel = "snowball.fbx"
-var.SnowDensity = 800 // recommended: 300 for mid end devices 100 for low end
+var.SnowDensity = 350 // i dont reocmmend changing this </3
 var.SnowFrequency = 2
 
 var.Balls = []
@@ -34,7 +35,7 @@ var.itercount = 0
 //////////// loops //
 
 loop = {}
-// maybe add a cache system where u store the balls and reuse them
+
 loop._events = function()
 
     while _events.len > 0
@@ -48,7 +49,7 @@ loop.SnowHandling = function()
 
     if (var.Balls.len < var.SnowDensity) then
         func.SpawnBall("snowball")
-         SendChatMessage({"sender": "DEBUG", "message": "man how we got bal at " + var.Balls.len})
+        //SendChatMessage({"sender": "DEBUG", "message": "man how we got bal at " + var.Balls.len})
     end if
      
  
@@ -63,15 +64,13 @@ end function
 
 func = {}
 
-func.SpawnBall = function(script)
+func.SpawnBall = function(script) // todo: add a cache system where u store the balls and reuse them to save on performance and have more density
 
     rndVar = RandomFloat({"min": 0, "max": 50})
     name = ("SnowParticle" + (rndVar))
 
     RandomXPos = var.PlayerPosX + RandomInt({"min": -(var.XPosMax / 2), "max": (var.XPosMax / 2)})
     RandomZPos = var.PlayerPosZ + RandomInt({"min": -(var.ZPosMax / 2), "max": (var.ZPosMax / 2)})
-
-    print(RandomXPos + " " + RandomZPos + " " + (var.PosY + var.PlayerPosY))
 
     InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": RandomFloat({"min": 0.3, "max": 0.8}), "collisions": false, "convex": false})
     ExecuteScript({"target": name , "script": script})
@@ -147,8 +146,6 @@ OnKeyPress = function(args)
     key = args.key
 
     if key == var.KEYBIND then
-        print("yeye ran")
-        print("key p broke the loop im the martricx")
         var._STOP = true
     end if
 
@@ -164,8 +161,11 @@ OnKeyPress = function(args)
 end function
 
 OnLocalDied = function(args)
-    print("broked the loop im the martricx")
     var._STOP = true
 end function 
+
+OnSceneChanged = function(args)
+    var._STOP = true
+end function
 
 func.Main()
