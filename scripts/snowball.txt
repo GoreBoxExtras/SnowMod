@@ -15,9 +15,6 @@ AddForce({"x": RandomFloat({"min": -5, "max": 5}), "y": -var.Resistance, "z": Ra
 
 
 wait(5)
-while scaleX > 0
-    AddScale({"x": -0.005, "y": -0.005, "z": -0.005})
-    yield
-end while
+
 
 print("deestoryyed")

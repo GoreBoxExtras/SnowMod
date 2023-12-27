@@ -28,7 +28,7 @@ var.PlayerPosX = @posX
 var.PlayerPosZ = @posZ
 var.PlayerPosY = @posY
 
-var.MaxLife = RandomFloat({"min": 1, "max": 15})
+var.MaxLife = RandomFloat({"min": 1, "max": 8})
 
 var.itercount = 0
 //////////// loops //
@@ -51,7 +51,7 @@ loop.SnowHandling = function()
     end if
         
     if var.itercount >= 15 then
-        var.Balls = func.CheckTable(var.Balls, RandomFloat({"min": 1, "max": 15}))
+        var.Balls = func.CheckTable(var.Balls, RandomFloat({"min": 1, "max": 8})) // referencing randomness from a variable isnt working?!
         var.itercount = 0
     end if
 
@@ -73,7 +73,7 @@ func.SpawnBall = function(script)
 
     print(RandomXPos + " " + RandomZPos + " " + (var.PosY + var.PlayerPosY))
 
-    InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": 0.8, "collisions": false, "convex": false})
+    InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": RandomFloat({"min": 0.6, "max": 0.9}), "collisions": false, "convex": false})
     ExecuteScript({"target": name , "script": script})
     
     var.Balls = func.ListAdd(var.Balls, name)
