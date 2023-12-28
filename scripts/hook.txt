@@ -7,7 +7,7 @@ ListenForPlayer
 
 var = {}
 
-var._DEBUG = false
+var._DEBUG = true
 
 var.Active = false
 
@@ -35,13 +35,18 @@ OnSceneChanged = function(args)
         print("in menu, script cancelled")
     end if
     SendChatMessageLocal({"sender": "GBE/SnowMod", "message": "SnowMod automatically activated. To forcefully stop it use the button 'P'"})
+     if var.Active == false then
+        var.Active = true
+        print("spawned ya sheekh")
+        func.InitMain()
+    end if
 end function
 
 OnLocalSpawned = function(args)
     if var.Active == false then
+        var.Active = true
         print("spawned ya sheekh")
         func.InitMain()
-        var.Active = true
     end if
 end function
 

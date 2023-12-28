@@ -18,8 +18,7 @@ var.KEYBIND = "P"
 var.debounce = 0
 
 var.SnowModel = "snowball.fbx"
-var.SnowDensity = 350 // i dont reocmmend changing this </3
-var.SnowFrequency = 2
+var.SnowCache = []
 
 var.Balls = []
 
@@ -38,48 +37,49 @@ var.itercount = 0
 
 func = {}
 
-func.SpawnBall = function(script) // todo: add a cache system where u store the balls and reuse them to save on performance and have more density
+func.SpawnBall = function(script, name)
+    SendChatMessageLocal({"sender": "GBE/SnowMod", "message": var.SnowCache.len})
+    if var.SnowCache.len > 0 then
+        // Reuse a particle from the cache
+        name = var.SnowCache.pop()["name"]
+    else
+        // Create a new particle
+        RandomXPos = var.PlayerPosX + RandomInt({"min": -(var.XPosMax / 2), "max": (var.XPosMax / 2)})
+        RandomZPos = var.PlayerPosZ + RandomInt({"min": -(var.ZPosMax / 2), "max": (var.ZPosMax / 2)})
 
-    rndVar = RandomFloat({"min": 0, "max": 50})
-    name = ("SnowParticle" + (rndVar))
+        InstantiateModel({
+            "model": var.SnowModel,
+            "name": name,
+            "x": RandomXPos,
+            "y": (var.PosY + var.PlayerPosY),
+            "z": RandomZPos,
+            "rotX": 0,
+            "rotY": 0,
+            "rotZ": 0,
+            "rotW": 0,
+            "scale": RandomFloat({"min": 0.3, "max": 0.7}),
+            "collisions": false,
+            "convex": false
+        })
+    end if
 
-    RandomXPos = var.PlayerPosX + RandomInt({"min": -(var.XPosMax / 2), "max": (var.XPosMax / 2)})
-    RandomZPos = var.PlayerPosZ + RandomInt({"min": -(var.ZPosMax / 2), "max": (var.ZPosMax / 2)})
-
-    InstantiateModel({"model": var.SnowModel, "name": name, "x": RandomXPos, "y": (var.PosY + var.PlayerPosY), "z": RandomZPos,"rotX": 0, "rotY": 0, "rotZ": 0, "rotW": 0, "scale": RandomFloat({"min": 0.3, "max": 0.7}), "collisions": false, "convex": false})
-    ExecuteScript({"target": name , "script": script})
-    
+    ExecuteScript({"target": name, "script": script})
     var.Balls = func.ListAdd(var.Balls, name)
-
 end function
 
 
 func.CheckTable = function(table, min)
-
     result = table[0:]
     for index in indexes(result)
-
         for kv in result[index]
             if time() - kv.value >= min then
-
-                ExecuteScript({"target": kv.key, "script": "destroy"}) // alternative to destroy() since its borken atm
-                // Destroy({"name": kv.key})
+                // Add the particle back to the cache for reuse
+                var.SnowCache.push({name: kv.key})
                 result.remove(index)
-
-                shouldidoe = RandomInt({"min": 0, "max": 1})
-                if shouldidoe == 1 then
-                    result func.CheckTable(result, min)
-                else
-                    return result
-                end if
-
             end if
-
-        end for       
+        end for
     end for
-
     return result
-
 end function
 
 func.ListAdd = function(list, value)
@@ -129,7 +129,10 @@ end function
 loop.SnowHandling = function()
 
     if (var.Balls.len < var.SnowDensity) then
-        func.SpawnBall("snowball")
+        rndVar = RandomFloat({"min": 0, "max": 50})
+        name = ("SnowParticle" + (rndVar))
+
+        func.SpawnBall("snowball", name)
         //SendChatMessage({"sender": "DEBUG", "message": "man how we got bal at " + var.Balls.len})
     end if
      
