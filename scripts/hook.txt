@@ -1,4 +1,3 @@
-        OpenConsole()
 //////////// listeners //
 
 ListenForSceneChange
