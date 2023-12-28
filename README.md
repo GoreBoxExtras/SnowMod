@@ -9,3 +9,6 @@ Automatically starts when joining a map, to forcefully stop it use 'P'
 - Fix that one annoying bug when gdev responds
 - Settings through commands
 - Visual improvements
+
+preview so far:
+![vido]([my_video.mov](https://streamable.com/tcpjon)
