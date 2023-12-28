@@ -10,9 +10,5 @@ Automatically starts when joining a map, to forcefully stop it use 'P'
 - Settings through commands
 - Visual improvements
 
-
+-
 [![Watch the showcase](https://img.youtube.com/vi/fm0gzSTbrXk/hqdefault.jpg)](https://www.youtube.com/embed/fm0gzSTbrXk)
-
-[<img src="https://img.youtube.com/vi/fm0gzSTbrXk/hqdefault.jpg" width="600" height="300"
-/>](https://www.youtube.com/embed/fm0gzSTbrXk)
-
