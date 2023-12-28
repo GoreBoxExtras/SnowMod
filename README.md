@@ -11,4 +11,4 @@ Automatically starts when joining a map, to forcefully stop it use 'P'
 - Visual improvements
 
 preview so far:
-![vido]([my_video.mov](https://streamable.com/tcpjon)
+![vido](https://streamable.com/tcpjon)
